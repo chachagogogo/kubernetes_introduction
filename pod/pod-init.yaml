@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: appname
+  labels:
+    name: appname
+spec:
+  initContainers:
+    - name: init-myservice
+      image: arisu1000/simple-container-app:latest
+      command: ['sh', '-c', 'sleep 2; echo helloworld01;']
+    - name: init-mydb
+      image: arisu1000/simple-container-app:latest
+      command: [ 'sh', '-c', 'sleep 2; echo helloworld02;' ]
+  containers:
+  - name: kubernetes-simple-pod
+    image: arisu1000/simple-container-app:latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    command: [ 'sh', '-c', 'echo The app is running! && sleep 3600' ]
